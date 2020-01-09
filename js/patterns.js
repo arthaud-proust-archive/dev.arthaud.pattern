@@ -106,6 +106,17 @@ class Pattern {
             8: [7,4,5,6,9],
             9: [8,5,6]
         };
+        // this.collision = {
+        //     1: [ 2,5],
+        //     2: [3,6,5,4,1],
+        //     3: [6,5,2],
+        //     4: [1,2,5,8,7],
+        //     5: [1,2,3,6,9,8,7,4],
+        //     6: [9,8,5,2,3],
+        //     7: [4,5,8],
+        //     8: [7,4,5,6,9],
+        //     9: [8,5,6]
+        // };
 
         for (let i=0; i<size; i++){
             this.addPoint(i);
@@ -149,6 +160,9 @@ class Pattern {
                 return;
             }
             // sinon on rend indisponible le point et on le mets dans le pattern
+            console.group(`Point: ${point}`);
+            console.log(this.map);
+            console.groupEnd();
             this.remove(point);
             this.pattern.push(point);
         }
@@ -193,6 +207,7 @@ class Generator {
     }
     destroyAll() {
         this.oldPatterns = this.patterns;
+        this.patterns = [];
         this.session.save('patterns', this.patterns);
         $(`.pattern`).fadeOut();
         $("#undo").addClass("undo");
