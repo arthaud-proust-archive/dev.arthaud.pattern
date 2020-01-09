@@ -12,6 +12,7 @@ class Session {
             }
         }
         console.log(`%cSession details (${value.length} patterns):`, "color: #aa2;");
+        $(`#${item}Total`).text(`(${value.length} patterns in total)`);
         return(value);
     }
     save(item, value) {
@@ -96,27 +97,67 @@ class Pattern {
         this.patterns = patterns;
         this.map = [1,2,3,4,5,6,7,8,9];
         this.coords= {
-            1: [2,5,4],
-            2: [3,6,5,4,1],
-            3: [6,5,2],
-            4: [1,2,5,8,7],
-            5: [1,2,3,6,9,8,7,4],
-            6: [9,8,5,2,3],
-            7: [4,5,8],
-            8: [7,4,5,6,9],
-            9: [8,5,6]
+            1: {
+                near: [2,5,4],
+                direct: {
+                    3:2,
+                    9:5,
+                    7:4
+                }
+            },
+            2: { 
+                near: [3,6,5,4,1],
+                direct: {
+                    8:5
+                }
+            },
+            3: {
+                near: [6,5,2],
+                direct: {
+                    1:2,
+                    7:5,
+                    9:6
+                }
+            },
+            4: {
+                near: [1,2,5,8,7],
+                direct: {
+                    6:5
+                }
+            },
+            5: {
+                near: [1,2,3,6,9,8,7,4], 
+                direct: {} 
+            },
+            6: {
+                near: [9,8,5,2,3],
+                direct: {
+                    4:5
+                }
+            },
+            7: {
+                near:[4,5,8],
+                direct: {
+                    1:4,
+                    3:5,
+                    9:8
+                }
+            },
+            8: {
+                near: [7,4,5,6,9],
+                direct: {
+                    2:5
+                }
+            },
+            9: {
+                near: [8,5,6],
+                direct: {
+                    7:8,
+                    1:5,
+                    3:6
+                }
+            }
         };
-        // this.collision = {
-        //     1: [ 2,5],
-        //     2: [3,6,5,4,1],
-        //     3: [6,5,2],
-        //     4: [1,2,5,8,7],
-        //     5: [1,2,3,6,9,8,7,4],
-        //     6: [9,8,5,2,3],
-        //     7: [4,5,8],
-        //     8: [7,4,5,6,9],
-        //     9: [8,5,6]
-        // };
 
         for (let i=0; i<size; i++){
             this.addPoint(i);
@@ -132,14 +173,20 @@ class Pattern {
         if (index !== -1) this.map.splice(index, 1);
     }
     getRandomPoint() { // Récupérer un point au hasard dans ceux possibles
+        let previous = this.pattern[this.pattern.length - 1];
 
         // si hard -> n'importe quel point libre peut suivre 
         if (this.hard) {
-            return(this.map[Math.floor(Math.random() * this.map.length)]);
+            let possible = this.map[Math.floor(Math.random() * this.map.length)];
+            // si direct, on prend le point plus proche sur la meme ligne, si le point est libre
+            let te = this.coords[previous].direct[possible];
+            if ( te && this.map.includes(te)) { 
+                possible = te;
+            }
+            return(possible);
         }
-        let previous = this.pattern[this.pattern.length - 1];
         // sinon parmi les points encore dispo on prends les points voisins au point précédent
-        let possible = this.map.filter(element => this.coords[previous].includes(element));
+        let possible = this.map.filter(element => this.coords[previous].near.includes(element));
         // on choisit un point au hasard dans ce tableau, et le retourne. Il peut ne pas y en avoir!
         return(possible[Math.floor(Math.random() * possible.length)]);
     }
@@ -154,15 +201,11 @@ class Pattern {
             } else { // sinon récupère le point d'après en suivant une logique
                 point = this.getNextPoint(this.pattern.join(''));
             }
-            // console.log("Next Point " +point);
             
             if (point == undefined) { // si undefined -> il n'y a plus de points disponibles
                 return;
             }
             // sinon on rend indisponible le point et on le mets dans le pattern
-            console.group(`Point: ${point}`);
-            console.log(this.map);
-            console.groupEnd();
             this.remove(point);
             this.pattern.push(point);
         }
@@ -187,7 +230,7 @@ class Generator {
             this.createPattern(pattern.get());
         }
         console.log(`${this.patterns.length - nPatterns} patterns generated`);
-        $('#patternsGenerated').text(`${this.patterns.length - nPatterns} patterns generated`);
+        $('#patternsGenerated').text(`+${this.patterns.length - nPatterns}`);
     }
     createPattern(pattern) {
         if ( !this.patterns.includes(pattern) )  {

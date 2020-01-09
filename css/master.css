@@ -104,6 +104,9 @@ h1 {
 .select > div {
     margin: 20px 0;
 }
+.select > p {
+    margin: 10px 0;
+}
 .select > div > b {
     margin-left: 10px ;
     display: inline-block;
