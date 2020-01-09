@@ -68,7 +68,7 @@ h1 {
     text-align: center;
     margin-top: 150px;
 }
-.control {
+#control {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -159,15 +159,16 @@ h1 {
     background: rgb(190, 32, 32);
 }
 
-div.pattern.example {
+.pattern-example {
     height: 240px;
     width: 240px;
     padding-bottom: 0;
     background: #1d1f21;
-
+    display: flex;
+    flex-wrap: wrap;
 }
 
-div.pattern input {
+.pattern-example input {
     margin: 20px;
     height: 40px;
     width: 40px;
