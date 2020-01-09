@@ -14,8 +14,8 @@
         patterns.generatePatterns(first, size, range, hard, random);
 
         $('html, body').animate({
-            // scrollTop: $("#patterns").offset().top-300
-            scrollTop: $("#control").offset().top
+            scrollTop: $("#patterns").offset().top-300
+            // scrollTop: $("#control").offset().top
         }, 400);
     });
     $("#clear").click( ()=> {patterns.destroyAll()});
