@@ -230,7 +230,9 @@ class Generator {
             this.createPattern(pattern.get());
         }
         console.log(`${this.patterns.length - nPatterns} patterns generated`);
+        $(`#patternsTotal`).text(`(${this.patterns.length} patterns in total)`);
         $('#patternsGenerated').text(`+${this.patterns.length - nPatterns}`);
+
     }
     createPattern(pattern) {
         if ( !this.patterns.includes(pattern) )  {
