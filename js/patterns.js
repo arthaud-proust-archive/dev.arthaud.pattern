@@ -12,7 +12,7 @@ class Session {
             }
         }
         console.log(`%cSession details (${value.length} patterns):`, "color: #aa2;");
-        $(`#${item}Total`).text(`(${value.length} patterns in total)`);
+        $(`#${item}Total`).text(`(${value.length} schémas au total)`);
         return(value);
     }
     save(item, value) {
@@ -50,7 +50,7 @@ class Canvas {
         <div class="pattern" id="${this.pattern}" style="width:${this.height}px;height:${this.height}px;">
             <canvas height="${this.height}" width="${this.height}">
             </canvas>
-            <input type="button" class="delete" value="Delete" onclick="patterns.destroyPattern('${this.pattern}')">
+            <input type="button" class="delete" value="Supprimer" onclick="patterns.destroyPattern('${this.pattern}')">
         </div>
         `);
 
@@ -70,13 +70,35 @@ class Canvas {
     drawPattern() {
         let pattern = {
             strokeStyle: 'steelblue',
-            strokeWidth: 10,
+            strokeWidth: 5,
             rounded: true,
             endArrow: true,
             arrowRadius: 25,
             arrowAngle: 70,
             closed: false,
+            shadowX: 1,
+            shadowY: 2,
+            shadowBlur: 10,
+            shadowColor: '#222'
         };
+        this.canvas.drawArc({
+            fillStyle: 'steelblue',
+            x: this.points[ this.pattern[0] ][0]*this.radius-this.radius/2, 
+            y: this.points[ this.pattern[0] ][1]*this.radius-this.radius/2,
+            radius: this.radius/3-20,
+            start: 0, end: 2*Math.PI,
+            ccw: true,
+            inDegrees: false
+        });
+        this.canvas.drawArc({
+            fillStyle: '#888',
+            x: this.points[ this.pattern[this.pattern.length-1] ][0]*this.radius-this.radius/2, 
+            y: this.points[ this.pattern[this.pattern.length-1] ][1]*this.radius-this.radius/2,
+            radius: this.radius/3-20,
+            start: 0, end: 2*Math.PI,
+            ccw: true,
+            inDegrees: false
+        });
         for (let i = 0; i < this.pattern.length; i++) {
             pattern[`x${i+1}`]= this.points[ this.pattern[i] ][0]*this.radius-this.radius/2;
             pattern[`y${i+1}`]= this.points[ this.pattern[i] ][1]*this.radius-this.radius/2;
@@ -230,7 +252,7 @@ class Generator {
             this.createPattern(pattern.get());
         }
         console.log(`${this.patterns.length - nPatterns} patterns generated`);
-        $(`#patternsTotal`).text(`(${this.patterns.length} patterns in total)`);
+        $(`#patternsTotal`).text(`(${this.patterns.length} schémas au total)`);
         $('#patternsGenerated').text(`+${this.patterns.length - nPatterns}`);
 
     }

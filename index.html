@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1"> 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pattern Generator</title>
+    <title>Générateur de schéma</title>
     <link rel="stylesheet" href="css/master.css">
     
 </head>
 <body>
-    <h1>Pattern Generator</h1>
+    <h1>Générateur de schéma</h1>
     <div id="control">
         <div class="select">
-            Start by 
+            Premier point
             <div class="pattern-example">
                 <input type="radio" name="first" value="1">
                 <input type="radio" name="first" value="2">
@@ -28,22 +28,22 @@
         <div class="select">
 
             <div class="selectRangeTry">
-                Number of try: <br>
+                Nombre de générations <br>
                 <input name="range" type="range" min="1" max="1000" step="1" value="10"><b>10</b>
             </div>
             <div class="selectLength">
-                Length of model: <br>
+                Longueur du schéma: <br>
                 <input name="size" type="range" min="2" max="9" value="4"><b>4</b>
             </div>
             <div class="selectModeHard">
                 <label>
-                    Hard possibilities:
+                    Chemins complexes:
                     <input name="hard" type="checkbox">
                 </label>
             </div>
             <div class="selectModeRandom" style="display: none;">
                 <label>
-                    [not active yet] Random mode:
+                    [pas encore actif] Mode aléatoire:
                     <input name="random" type="checkbox" disabled checked>
                 </label>
             </div>
@@ -67,7 +67,7 @@
     </div>
     <div id="top" style="display: none;">˄</div>
     <div id="bottom" style="display: none;">˅</div>
-    <div id="undo" >Pattern deleted <b>Undo</b></div>
+    <div id="undo" >Schéma supprimé <b>Annuler</b></div>
 
     <!-- scripts -->
     <script src="js/ressources/jquery.js"></script>
